@@ -1,0 +1,12 @@
+# Kaggle data: not committed (competition rules + file size)
+data/
+*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
