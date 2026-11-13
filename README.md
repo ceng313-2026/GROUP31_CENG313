@@ -8,9 +8,8 @@ CENG313 Introduction to Data Science, course project
 
 | Name | Student ID |
 |---|---|
-| TODO | TODO |
-| TODO | TODO |
-| TODO | TODO |
+| Enes Tekneci | 23118080705 |
+| Marziye Can | 23118080706 |
 
 ## Competition
 
@@ -24,7 +23,7 @@ From a student's multiple-choice answer and written explanation, predict `Catego
 |---|---|---|---|
 | Majority (3 most frequent labels) | 0.5403 | – | – |
 | TF-IDF + Logistic Regression | 0.9167 | – | – |
-| TF-IDF + Logistic Regression + EDA rules (Assignment 1 baseline) | 0.9196 | TODO | TODO |
+| TF-IDF + Logistic Regression + EDA rules (Assignment 1 baseline) | 0.9196 | 0.90732 | 0.90760 |
 
 Winning private score on the leaderboard: 0.94919. The late-submission screenshot goes in [`submissions/`](submissions/).
 
@@ -36,8 +35,8 @@ Winning private score on the leaderboard: 0.94919. The late-submission screensho
 ├── kaggle_submit.py                 Self-contained script for the Kaggle late submission
 ├── src/
 │   ├── data.py                      loading, target, is_correct feature, text cleaning
-│   ├── models.py                    MAP@3, baselines, label rules
-│   └── utils.py                     plots, writing submission.csv
+│   ├── models.py                    baselines, label rules
+│   └── utils.py                     plots, MAP@3 metric, writing submission.csv
 ├── data/                            Kaggle data (not committed)
 └── submissions/                     score screenshots
 ```
@@ -66,7 +65,7 @@ pip install -r requirements.txt
 jupyter notebook assignment1_eda_baseline.ipynb
 ```
 
-If GitHub does not render the notebook, open it on [nbviewer](https://nbviewer.org/github/ceng313-2026/GROUP31_CENG313/blob/main/assignment1_eda_baseline.ipynb).
+If GitHub does not render the notebook, open it on [nbviewer](https://nbviewer.org/github/enesTekneci/GROUP31_CENG313/blob/main/assignment1_eda_baseline.ipynb).
 
 Run the notebook from the repository root so that `from src... import` works. A full *Restart & Run All* takes about 3–4 minutes on a laptop CPU, because the logistic regression is trained twice.
 
