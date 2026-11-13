@@ -1,14 +1,3 @@
-"""Late submission for the Kaggle code competition.
-
-How to use:
-  1. Kaggle → competition page → Code → New Notebook (Internet: off).
-  2. Make sure the competition data is attached under "Input".
-  3. Paste this whole file into one cell and run it ("Save Version" → "Save & Run All").
-  4. Open the saved version → Output → submission.csv → "Submit".
-
-shortcut: this is a copy of the pipeline in src/ because a Kaggle notebook cannot
-import our repo; if you change src/data.py or src/models.py, change it here too.
-"""
 import glob
 import os
 import re
@@ -19,16 +8,16 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import FeatureUnion, Pipeline
 
-# ---- find the data (Kaggle has used more than one input path layout) ----
+# Kaggle has used more than one input folder layout, so search for the file
 paths = glob.glob("/kaggle/input/**/train.csv", recursive=True)
 assert paths, "train.csv not found: attach the competition data under Input"
-# prefer the competition folder if another attached dataset also has a train.csv
+# another attached dataset may also have a train.csv
 train_path = next((p for p in paths if "map-charting" in p), paths[0])
 data_dir = os.path.dirname(train_path)
 train = pd.read_csv(f"{data_dir}/train.csv", keep_default_na=False, na_values=[""])
 test = pd.read_csv(f"{data_dir}/test.csv", keep_default_na=False, na_values=[""])
 
-# ---- preprocessing (same as src/data.py) ----
+# preprocessing, as in notebook section 4 and src/data.py
 train["target"] = train["Category"] + ":" + train["Misconception"]
 train = train.drop_duplicates(
     subset=["QuestionId", "MC_Answer", "StudentExplanation", "target"]).reset_index(drop=True)
@@ -55,7 +44,7 @@ def preprocess(df):
 
 train, test = preprocess(train), preprocess(test)
 
-# ---- model (same as src/models.py) ----
+# model, as in src/models.py
 model = Pipeline([
     ("tfidf", FeatureUnion([
         ("word", TfidfVectorizer(ngram_range=(1, 2), min_df=2, sublinear_tf=True)),
@@ -68,7 +57,7 @@ model.fit(train["text"], train["target"])
 classes = model.classes_
 proba = model.predict_proba(test["text"])
 
-# ---- EDA rules: True/False must match is_correct, label must be seen for the question ----
+# EDA rules: True/False must match is_correct, and the label must have been seen for the question
 labels_per_question = train.groupby("QuestionId")["target"].agg(set).to_dict()
 label_is_true = np.array([c.startswith("True") for c in classes])
 allowed = label_is_true[None, :] == test["is_correct"].to_numpy().astype(bool)[:, None]

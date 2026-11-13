@@ -8,7 +8,7 @@ import pandas as pd
 def load_data(data_dir="data"):
     """Read train.csv and test.csv from data_dir."""
     data_dir = Path(data_dir)
-    # keep_default_na=False: the string "NA" in Misconception is a real label, not a missing value
+    # "NA" in Misconception is a real label, not a missing value
     train = pd.read_csv(data_dir / "train.csv", keep_default_na=False, na_values=[""])
     test = pd.read_csv(data_dir / "test.csv", keep_default_na=False, na_values=[""])
     return train, test
